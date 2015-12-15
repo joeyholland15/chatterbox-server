@@ -14,11 +14,12 @@ this file and include it in basic-server.js so that it actually works.
 
 var fs = require('fs');
 var res = {};
-res.results = [{
-      username: 'Jono',
-      text: 'Do my bidding!',
-      objectId: Math.random()
-    }];
+// res.results = [{
+//       username: 'Jono',
+//       text: 'Do my bidding!',
+//       objectId: Math.random()
+//     }];
+res.results = [];
 
 var requestHandler = function(request, response) {
   // Request and Response come from node's http module.
@@ -74,16 +75,21 @@ var requestHandler = function(request, response) {
     request.on('data', function (chunk) {
       console.log('POSTing')
       // read file + parse file
-      console.log(chunk.toString());
-      body += chunk.toString();
+      console.log(chunk);
+      body += chunk;
       // then add data to object
       // stringify then
       // then write it back to the file
       // fs.write(data);
-      res.results.push(body);
     }); 
-    console.log(body);
-    response.end();
+
+    request.on('end', function () {
+      JSON.parse(body);
+      console.log(body);
+      res.results.push(body);
+      response.end();
+      
+    });
   } else if (request.method === 'OPTIONS') {
     response.writeHead(statusCode, headers);
     response.end();
