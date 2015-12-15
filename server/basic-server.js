@@ -1,6 +1,10 @@
 /* Import node's http module: */
 var http = require("http");
+var fs = require('fs'); 
 var handleRequest = require('./request-handler.js');
+var url = require('url'),
+    path = require('path'); 
+
 
 
 // Every server needs to listen on a port with a unique number. The
@@ -16,7 +20,9 @@ var port = 3000;
 var ip = "127.0.0.1";
 
 
-
+// var index = fs.readFileSync('../client/index.html'); 
+// debugger; 
+// console.log(index); 
 // We use node's http module to create a server.
 //
 // The function we pass to http.createServer will be used to handle all
@@ -26,6 +32,39 @@ var ip = "127.0.0.1";
 var server = http.createServer(handleRequest.requestHandler);
 console.log("Listening on http://" + ip + ":" + port);
 server.listen(port, ip);
+
+// http.createServer(function(req, res) {
+//   res.writeHead(200, {'Content-Type': 'text/html'});
+//   res.end(index); 
+// }).listen(port, ip);  
+
+
+var mimeTypes = {
+    "html": "text/html",
+    "jpeg": "image/jpeg",
+    "jpg": "image/jpeg",
+    "png": "image/png",
+    "js": "text/javascript",
+    "css": "text/css"};
+
+http.createServer(function(req, res) {
+    var uri = url.parse(req.url).pathname;
+    var filename = path.join(process.cwd(), uri);
+    path.exists(filename, function(exists) {
+        if(!exists) {
+            console.log("not exists: " + filename);
+            res.writeHead(200, {'Content-Type': 'text/plain'});
+            res.write('404 Not Found\n');
+            res.end();
+        }
+        var mimeType = mimeTypes[path.extname(filename).split(".")[1]];
+        res.writeHead(200, mimeType);
+
+        var fileStream = fs.createReadStream(filename);
+        fileStream.pipe(res);
+
+    }); //end path.exists
+}).listen(1337);
 
 // To start this server, run:
 //

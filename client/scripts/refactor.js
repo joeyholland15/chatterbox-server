@@ -290,7 +290,6 @@ app.fetch = function () {
       }
     } else {
       while (totalMessages <= 20 || data.results[j]===undefined) {
-        debugger;
         if(data.results[j].roomname === room){
           app.addMessage(data.results[j]);
           totalMessages++;
