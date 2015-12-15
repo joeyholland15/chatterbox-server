@@ -5,7 +5,10 @@ var handleRequest = require('./request-handler.js');
 var url = require('url'),
     path = require('path'); 
 
+var express = require('express');
+var app = express();
 
+app.use('/', express.static('./client'), handleRequest.requestHandler); 
 
 // Every server needs to listen on a port with a unique number. The
 // standard port for HTTP servers is port 80, but that port is
@@ -19,7 +22,7 @@ var port = 3000;
 // special address that always refers to localhost.
 var ip = "127.0.0.1";
 
-
+app.listen(port);
 // var index = fs.readFileSync('../client/index.html'); 
 // debugger; 
 // console.log(index); 
@@ -29,9 +32,9 @@ var ip = "127.0.0.1";
 // incoming requests.
 //
 // After creating the server, we will tell it to listen on the given port and IP. */
-var server = http.createServer(handleRequest.requestHandler);
-console.log("Listening on http://" + ip + ":" + port);
-server.listen(port, ip);
+// var server = http.createServer(handleRequest.requestHandler);
+// console.log("Listening on http://" + ip + ":" + port);
+// server.listen(port, ip);
 
 // http.createServer(function(req, res) {
 //   res.writeHead(200, {'Content-Type': 'text/html'});
@@ -39,32 +42,32 @@ server.listen(port, ip);
 // }).listen(port, ip);  
 
 
-var mimeTypes = {
-    "html": "text/html",
-    "jpeg": "image/jpeg",
-    "jpg": "image/jpeg",
-    "png": "image/png",
-    "js": "text/javascript",
-    "css": "text/css"};
+// var mimeTypes = {
+//     "html": "text/html",
+//     "jpeg": "image/jpeg",
+//     "jpg": "image/jpeg",
+//     "png": "image/png",
+//     "js": "text/javascript",
+//     "css": "text/css"};
 
-http.createServer(function(req, res) {
-    var uri = url.parse(req.url).pathname;
-    var filename = path.join(process.cwd(), uri);
-    path.exists(filename, function(exists) {
-        if(!exists) {
-            console.log("not exists: " + filename);
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.write('404 Not Found\n');
-            res.end();
-        }
-        var mimeType = mimeTypes[path.extname(filename).split(".")[1]];
-        res.writeHead(200, mimeType);
+// http.createServer(function(req, res) {
+//     var uri = url.parse(req.url).pathname;
+//     var filename = path.join(process.cwd(), uri);
+//     path.exists(filename, function(exists) {
+//         if(!exists) {
+//             console.log("not exists: " + filename);
+//             res.writeHead(200, {'Content-Type': 'text/plain'});
+//             res.write('404 Not Found\n');
+//             res.end();
+//         }
+//         var mimeType = mimeTypes[path.extname(filename).split(".")[1]];
+//         res.writeHead(200, mimeType);
 
-        var fileStream = fs.createReadStream(filename);
-        fileStream.pipe(res);
+//         var fileStream = fs.createReadStream(filename);
+//         fileStream.pipe(res);
 
-    }); //end path.exists
-}).listen(1337);
+//     }); //end path.exists
+// }).listen(1337);
 
 // To start this server, run:
 //
