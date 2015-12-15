@@ -72,7 +72,7 @@ var requestHandler = function(request, response) {
   } else if (request.method === 'POST') {
     var body = '';
     request.on('data', function (chunk) {
-      console.log('dPOSTing')
+      console.log('POSTing')
       // read file + parse file
       console.log(chunk.toString());
       body += chunk.toString();
@@ -83,7 +83,10 @@ var requestHandler = function(request, response) {
       res.results.push(body);
     }); 
     console.log(body);
-    response.end()
+    response.end();
+  } else if (request.method === 'OPTIONS') {
+    response.writeHead(statusCode, headers);
+    response.end();
   }
 
 };
