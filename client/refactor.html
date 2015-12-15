@@ -13,7 +13,7 @@
     <script src="scripts/refactor.js"></script>
   </head>
   <body>
-    <div id="main">
+<!--     <div id="main">
       <h1>chatter<em>box</em></h1>
       <div class="spinner"><img src="images/spiffygif_46x46.gif"></div>
       <form action="#" id="send" method="post">
@@ -21,7 +21,22 @@
         <input type="submit" name="submit" class="submit"/>
       </form>
     </div>
-    <div id="chats"></div>
+    <div id="chats"></div> -->
+    <div id="main">
+      <h1>chatterbox</h1>
+      <!-- Your HTML goes here! -->
+      <select id="roomSelect">
+        <option value="home">home</option>
+      </select>
+      <form id='send'>
+        <input id="username" type="text" placeholder="username" required />  
+        <input id="message" type="text" placeholder="message" required />
+        <input id="roomname" type="text" placeholder="roomname (optional)" />    
+        <button class="submit">Send</button>
+      </form>
+    </div>
+      <div id="chats"></div>
+  </body>
     <script>
       $(function(){
         // change this to false to run the jQuery version
@@ -38,7 +53,7 @@
         } else {
           // jQuery-based app initialization
           console.log('Running jQuery Version...');
-          app.init();
+          // app.init();
         }
       });
     </script>

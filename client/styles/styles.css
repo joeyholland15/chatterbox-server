@@ -82,3 +82,9 @@ form input[type=text] {
 .spinner img {
     padding: 10px;
 }
+
+.chatMessage {
+    padding: 5px;
+    margin-bottom: 5px;
+    background-color: #eee;
+}

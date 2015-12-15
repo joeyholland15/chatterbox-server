@@ -84,10 +84,12 @@ var requestHandler = function(request, response) {
     }); 
 
     request.on('end', function () {
-      JSON.parse(body);
-      console.log(body);
-      res.results.push(body);
-      response.end();
+      var parsedData = JSON.parse(body);
+      console.log('parsedData', parsedData);
+      console.log('body', body)
+      res.results.push(parsedData);
+      response.writeHead(statusCode, headers); 
+      response.end(JSON.stringify(parsedData));
       
     });
   } else if (request.method === 'OPTIONS') {
